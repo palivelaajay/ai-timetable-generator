@@ -28,7 +28,7 @@ class Timetable {
     constructor(workingDays, periodsPerDay, breakTimings, faculty, subjects, classrooms) {
         this.workingDays = workingDays;
         this.periodsPerDay = periodsPerDay;
-        this.breakTimings = breakTimings; // e.g., { 'Monday': [4], 'Tuesday': [4] }
+        this.breakTimings = breakTimings; 
         this.faculty = faculty;
         this.subjects = subjects;
         this.classrooms = classrooms;

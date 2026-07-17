@@ -7,6 +7,12 @@ import { errorHandler } from './middleware/errorHandler.js';
 import { setupSwagger } from './config/swagger.js';
 import { logger } from './utils/logger.js';
 import { AppError } from './utils/appError.js';
+import { authRouter } from './routes/auth.routes.js';
+import { departmentRouter } from './routes/department.routes.js';
+import { facultyRouter } from './routes/faculty.routes.js';
+import { subjectRouter } from './routes/subject.routes.js';
+import { classroomRouter } from './routes/classroom.routes.js';
+import { timetableRouter } from './routes/timetable.routes.js';
 
 // Initialize express application
 const app: Express = express();
@@ -71,7 +77,7 @@ setupSwagger(app);
  *       200:
  *         description: Server is online and database is connected.
  */
-app.get('/healthz', (req: Request, res: Response) => {
+app.get('/healthz', (_req: Request, res: Response) => {
   res.status(200).json({
     status: 'success',
     timestamp: new Date().toISOString(),
@@ -81,21 +87,25 @@ app.get('/healthz', (req: Request, res: Response) => {
 });
 
 // ==========================================
-// 4. API ROUTES DEFINITIONS (Registered later in next phases)
+// 4. API ROUTES DEFINITIONS
 // ==========================================
 
-// Base router placeholder - we will register routes here in subsequent modules
-// app.use('/api/v1/auth', authRouter);
-// app.use('/api/v1/faculty', facultyRouter);
-// app.use('/api/v1/subjects', subjectRouter);
-// app.use('/api/v1/departments', departmentRouter);
-// app.use('/api/v1/classrooms', classroomRouter);
-// app.use('/api/v1/timetable', timetableRouter);
+// Authentication routes
+app.use('/api/v1/auth', authRouter);
+
+// Master data CRUD routes
+app.use('/api/v1/departments', departmentRouter);
+app.use('/api/v1/faculty', facultyRouter);
+app.use('/api/v1/subjects', subjectRouter);
+app.use('/api/v1/classrooms', classroomRouter);
+
+// Timetable generation and management routes
+app.use('/api/v1/timetable', timetableRouter);
 
 // ==========================================
 // 5. UNHANDLED ROUTE FALLBACK
 // ==========================================
-app.all('*', (req: Request, res: Response, next: NextFunction) => {
+app.all('*', (req: Request, _res: Response, next: NextFunction) => {
   next(new AppError(`Can't find ${req.method} ${req.originalUrl} on this server!`, 404));
 });
 

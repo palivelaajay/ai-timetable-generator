@@ -54,10 +54,10 @@ and execute optimized timetable generations powered by an AI-module.
   },
   // Paths to files containing OpenAPI annotations
   apis: [
-    './backend/src/routes/*.ts',
-    './backend/src/routes/*.js',
-    './backend/src/routes/**/*.ts',
-    './backend/src/models/*.ts',
+    './src/routes/*.ts',
+    './src/routes/*.js',
+    './src/routes/**/*.ts',
+    './src/models/*.ts',
   ],
 };
 
@@ -71,7 +71,7 @@ export function setupSwagger(app: Express): void {
   app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   
   // Also redirect the root endpoint '/' to '/docs' so that the iframe displays the live Swagger interactive terminal!
-  app.get('/', (req, res) => {
+  app.get('/', (_req, res) => {
     res.redirect('/docs');
   });
 
